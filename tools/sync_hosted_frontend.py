@@ -12,11 +12,14 @@ destination=Path(args.destination).resolve()
 manifest=destination/'.openai'/'hosting.json'
 if not manifest.is_file() or not json.loads(manifest.read_text(encoding='utf-8')).get('project_id'):
     raise SystemExit('An existing authorized Sites checkout is required. No Site was created.')
-try:url=json.loads((root/'data'/'connection.json').read_text())['url']
+cloud_state=root/'data'/'cloud.json'
+try:url=json.loads((cloud_state if cloud_state.exists() else root/'data'/'connection.json').read_text())['url']
 except (OSError,KeyError,ValueError):raise SystemExit('No active receiver URL; no files changed.')
 if not url.startswith('https://'):raise SystemExit('HTTPS receiver required.')
 dist=destination/'dist';dist.mkdir(exist_ok=True)
-for source in (root/'frontend').iterdir():
+assets=root/'cloud'/'public' if cloud_state.exists() else root/'frontend'
+if not assets.is_dir():raise SystemExit('Run cloud/prepare.py before publishing cloud frontend.')
+for source in assets.iterdir():
     if source.is_file() and source.name not in ('receiver.json','receiver.example.json'):shutil.copy2(source,dist/source.name)
 (dist/'receiver.json').write_text(json.dumps({'endpoint':url}),encoding='utf-8')
 print('Prepared frontend files. Follow Sites source/save/deploy workflow to publish.')

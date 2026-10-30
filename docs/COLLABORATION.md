@@ -1,5 +1,7 @@
 # Git 分支协作
 
+云端部署和正式数据说明以 [CLOUD.md](CLOUD.md) 为准。迁移后正式库在 Cloudflare D1，本机库仅供开发与备份；下文提到负责人后端时包含其云端后台。
+
 主仓库：https://github.com/fuxiao-star/pmo-workspace
 
 公开的是源码，不是数据库或凭证。同学无需邀请即可 clone。要贡献修改，请 fork 到自己的 GitHub，再从功能分支提交 PR；公开可读不等于能直接 push 主仓库。

@@ -2,10 +2,14 @@
 
 七个学期项目的周报管理，另管理第八组 PMO 自身项目。
 
+## 云端正式版
+
+正式版已迁移至 Cloudflare Workers + D1，固定入口 https://pmo-workspace.pmo-cloud.workers.dev/ ，管理入口为 /team。部署、迁移、权限和备份见 [docs/CLOUD.md](docs/CLOUD.md)。下方本机服务和临时隧道保留作为开发/历史运行方式；迁移完成后以云端 D1 为正式数据源，本机 SQLite 保留备份，不自动双向同步。
+
 ## 两人协作
 
 - 代码：此 GitHub 仓库是统一来源；同学 fork 后在 feature/... 分支开发，通过 PR 合并。
-- 正式数据：负责人电脑 data/pmo.sqlite3 是唯一正式数据库；团队登录同一个 HTTPS /team 工作台查看相同周报和分类，不直接跨网络打开 SQLite 文件。
+- 正式数据：云端迁移后以 D1 为准；团队登录同一个 HTTPS /team 工作台查看相同周报和分类，不直接跨网络打开 SQLite 文件。
 - 开发数据：clone 后首次启动建立本地空库，可用完整示例预览。不要用开发库覆盖正式库。
 - 每项完成修改测试后 commit/push，Git 不会自动同步每次键盘输入；数据库不进入 Git。
 
